@@ -1,11 +1,15 @@
+var canvas;
+var ctx;
+var width;
+var height;
 
 console.log("hello");
 init();
-scene = new Scene();
+loadMesh("box.obj");
 
 
 function init() {
-  let canvas = document.getElementById("cnv"),
+      canvas = document.getElementById("cnv"),
       ctx = canvas.getContext("2d"),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight;

@@ -1,17 +1,9 @@
-class Box extends Renderable
-{
-  function setup() {
-    var mesh = loadMesh("box.obj");
-    var tex = loadTex("firewatch2.jpg");
-    this.model = new Model(mesh, tex);
-  }
+var boxModel = new Model(loadMesh("box.obj"), loadTex("firewatch2.jpg"));
+var box = new Entity(boxModel,
+  function (this) {
 
-  function update() {
-    m = SMath.createRotationMatrix(0, 0, 1);
+  },
+  function (this) {
+    var m = SMath.createRotationMatrix(0, 0, 1);
     this.model.mesh = SMath.multiplyMesh(this.model.mesh, m);
-  }
-
-  function getModel() {
-    return this.model;
-  }
-}
+});
