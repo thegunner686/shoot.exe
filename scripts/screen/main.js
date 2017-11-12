@@ -15,8 +15,8 @@ function init() {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
 
-
-  main_scene = new Scene();
+  ctx.fillRect(0, 0, width / 2, height);
+  //main_scene = new Scene();
 
   setTimeout(() => {
     start();
@@ -28,8 +28,8 @@ function start() {
 }
 
 function updateScreen() {
-  main_scene.getEntities().map((entity) => {
+/*  main_scene.getEntities().map((entity) => {
     entity.update();
-  });
+  });*/
   requestAnimationFrame(updateScreen);
 }
