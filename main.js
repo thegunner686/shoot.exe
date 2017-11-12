@@ -5,7 +5,9 @@ var height;
 
 console.log("hello");
 init();
-loadMesh("box.obj");
+var scene1 = new Scene();
+scene1.setup();
+scene1.update();
 
 
 function init() {

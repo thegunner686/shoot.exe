@@ -17,16 +17,61 @@ function loadTex(filename) {
 }
 
 function loadMesh(filename) {
-  fetch('https://firebasestorage.googleapis.com/v0/b/shah-cloud.appspot.com/o/box.obj?alt=media&token=ddad3948-e888-434b-b8d6-ea4f0e2cbeb5').then(function(response) {
-    if (response.status !== 200) {
-        throw response.status;
-    }
-    return response.text();
-}).then(function(file_content) {
-    console.log(file_content);
-}).catch(function(status) {
-    console.log('Error ' + status);
-});
+  var verts = [];
+  var tris = [];
+  var texCoords = [];
+
+  fetch('https://raw.githubusercontent.com/thegunner686/shoot.exe/master/box.obj').then(function(response) {
+      if (response.status !== 200) {
+          throw response.status;
+      }
+      return response.text();
+  }).then(function(file_content) {
+      var str = new String(file_content);
+      var split = str.split("\n");
+      for (var line = 0; line < split.length; line++) {
+          var words = split[line].split(" ");
+          switch (words[0]) {
+            case "v":
+              var x = parseFloat(words[1]);
+              var y = parseFloat(words[2]);
+              var z = parseFloat(words[3]);
+              verts.push(new Vector3(x, y, z));
+              console.log("vert: " + x + "," + y + "," + z);
+              break;
+
+            case "f":
+              var tvs = [];
+              var ttcs = [];
+              tvs.push(parseInt(words[1].split("/")[0])-1);
+              tvs.push(parseInt(words[2].split("/")[0])-1);
+              tvs.push(parseInt(words[3].split("/")[0])-1);
+              ttcs.push(parseInt(words[1].split("/")[1])-1);
+              ttcs.push(parseInt(words[2].split("/")[1])-1);
+              ttcs.push(parseInt(words[3].split("/")[1])-1);
+              tris.push(tvs);
+              tris.push(ttcs);
+              console.log("tri: " + tvs + "\n" + ttcs);
+              break;
+
+            case "vt":
+              var u = parseFloat(words[1]);
+              var v = parseFloat(words[2]);
+              var w = parseFloat(words[3]);
+              texCoords.push(new Vector3(u, v, w));
+              console.log("texCoord: " + u + "," + v + "," + w);
+              break;
+
+            default:
+
+          }
+
+      }
+      var mesh = new Mesh(tris, verts, texCoords);
+  }).catch(function(status) {
+      console.log('Error ' + status);
+  });
+
 }
 
 function xhr(){

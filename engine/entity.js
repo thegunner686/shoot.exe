@@ -4,10 +4,10 @@ function Entity(model, onSetup, onUpdate) {
   this.onUpdate = onUpdate;
 
   function setup() {
-    this.onSetup();
+    this.onSetup(this);
   }
 
   function update() {
-    this.onUpdate();
+    this.onUpdate(this);
   }
 }
