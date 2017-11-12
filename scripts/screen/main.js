@@ -7,6 +7,7 @@ function init() {
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight;
 
+  ctx.fillStyle = "red";
   ctx.fillRect(0, 0, width, height);
 
 
