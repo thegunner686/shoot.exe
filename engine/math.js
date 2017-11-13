@@ -8,15 +8,15 @@ SMath.multiplyMesh = function (model, mat) {
   return mesh;
 }
 
-SMath.cvtNDCToRaster = function (ndc) {
-  var raster = new Vec3();
+SMath.cvtNDCToRaster = function (ndc, winWidth, winHeight) {
+  var raster = new Vector3();
 	raster.x = (ndc.x+1) * .5 * winWidth;
 	raster.y = (1-ndc.y) * .5 * winHeight;
 	raster.z = ndc.z;
 	return raster;
 }
 
-SMath.lineFunction = function (a, b, c) {
+SMath.edgeFunction = function (a, b, c) {
   return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x);
 }
 
@@ -127,7 +127,7 @@ SMath.multMatMat = function (A, B) {
   return C;
 }
 
-SMath.inverse = function (m) {
+SMath.matInverse = function (m) {
   var a = m;
 	var n = a.length;
   var x = new Array(n);
@@ -143,7 +143,7 @@ SMath.inverse = function (m) {
       b[i][i] = 1;
 
  // Transform the matrix into an upper triangle
- gaussian(a, index);
+ SMath.gaussian(a, index);
 
  // Update the matrix b[i][j] with the ratios stored
  for (var i=0; i<n-1; ++i)

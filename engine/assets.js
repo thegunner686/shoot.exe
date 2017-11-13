@@ -16,10 +16,11 @@ function loadTex(filename) {
   img.src = filename;
 }
 
-function loadMesh(filename) {
-  var verts = [];
+function loadMesh(filename, onFinished) {
   var tris = [];
   var texCoords = [];
+  var mesh;
+  var verts = new Array(0);
 
   fetch('https://raw.githubusercontent.com/thegunner686/shoot.exe/master/box.obj').then(function(response) {
       if (response.status !== 200) {
@@ -29,6 +30,7 @@ function loadMesh(filename) {
   }).then(function(file_content) {
       var str = new String(file_content);
       var split = str.split("\n");
+      var index = 0;
       for (var line = 0; line < split.length; line++) {
           var words = split[line].split(" ");
           switch (words[0]) {
@@ -37,7 +39,8 @@ function loadMesh(filename) {
               var y = parseFloat(words[2]);
               var z = parseFloat(words[3]);
               verts.push(new Vector3(x, y, z));
-              console.log("vert: " + x + "," + y + "," + z);
+              console.log(new Vector3(x, y, z));
+              console.log(verts);
               break;
 
             case "f":
@@ -67,11 +70,13 @@ function loadMesh(filename) {
           }
 
       }
-      var mesh = new Mesh(tris, verts, texCoords);
+      //console.log(verts);
+      mesh = new Mesh(tris, verts, texCoords);
+      console.log(mesh);
+      onFinished(mesh);
   }).catch(function(status) {
       console.log('Error ' + status);
   });
-
 }
 
 function xhr(){
